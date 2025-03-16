@@ -123,7 +123,7 @@ async def handle_text_while_waiting_file(msg: types.Message) -> None:
 
 @router.message(F.text)
 async def handle_others(msg: types.Message, state: FSMContext) -> None:
-    reset_kb_msg = await msg.answer(
+    await msg.answer(
         text="Контекст потерян или отсутствует. Возвращаюсь в главное меню...",
         reply_markup=Keyboards.MAIN_MENU,
     )

@@ -6,4 +6,6 @@ main_router = Router()
 
 main_router.include_router(sites_router)
 
-__all__ = ("main_router",)
+__all__ = (
+    "main_router",
+)

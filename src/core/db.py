@@ -2,7 +2,11 @@ from contextlib import asynccontextmanager
 from typing import AsyncIterator
 
 from sqlalchemy.orm import DeclarativeBase
-from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine, AsyncSession
+from sqlalchemy.ext.asyncio import (
+    async_sessionmaker,
+    create_async_engine,
+    AsyncSession,
+)
 
 
 class Base(DeclarativeBase):
@@ -15,7 +19,7 @@ class Database:
         self.engine = create_async_engine(
             url="sqlite+aiosqlite:///database.db"
         )
-        self.__session_maker = async_sessionmaker(
+        self._session_maker = async_sessionmaker(
             self.engine,
             expire_on_commit=False,
         )
@@ -29,7 +33,7 @@ class Database:
     async def create_async_session(self) -> AsyncIterator[AsyncSession]:
         session: AsyncSession
         try:
-            async with self.__session_maker() as session:
+            async with self._session_maker() as session:
                 yield session
         except Exception as e:
             await session.rollback()
